@@ -1596,14 +1596,14 @@ namespace Northwind
             //{
             //    c.Country,
             //    o.EmployeeID
-              
+
             //})
             //.Join(Employees, e=>e.EmployeeID , o=>o.EmployeeID , (o, e) => new {employeeCountry = e.Country,orderCountry = o.Country})
             //.Where(g=>g.employeeCountry == g.orderCountry);
             //foreach (var e in result) 
             //{ 
             //    Console.WriteLine(e);
-            
+
             //}
             #endregion
             #region 11-Find the products that have the highest average discount applied.
@@ -1620,25 +1620,75 @@ namespace Northwind
             //}
 
             #endregion
+            #region 12-Get the total number of products supplied by each supplier.
+            //var result = Products.GroupBy(p=>p.SupplierID).Select(g=> new
+            //{
+            //    SupplierID =g.Key,
+            //    Count = g.Count()
+            //});
+            //foreach (var item in result)
+            //{
+            //    Console.WriteLine(item);
+            //}
 
-            // Get the total number of products supplied by each supplier.
+            #endregion
+            #region 13-List all orders where the total freight cost exceeds the average freight cost of all orders.
+            //var avg = Orders.Average(o=>o.Freight);
+            //var result = Orders.Where(o => o.Freight > avg);
 
-            // List all orders where the total freight cost exceeds the average freight cost of all orders.
 
-            // Retrieve the names and addresses of all customers who have not placed any orders.
+            #endregion
+            #region 14-Retrieve the names and addresses of all customers who have not placed any orders.
+            //var res = Customers.GroupJoin(Orders, c => c.CustomerID, o => o.CustomerID, (c, o) => new
+            //{   
+            //    customer = c,
+            //    order = o,
 
-            // Find the employee with the most recent hire date.
+            //}).Where(x=>!x.order.Any())
+            //.Select(x=>new { x.customer.ContactName, x.customer.Address });
 
-            // Get all orders that were shipped on the same date they were ordered.
+            //foreach(var c in res)
+            //{
+            //    Console.WriteLine(c);
+            //}
+            #endregion
+            #region 15-Find the employee with the most recent hire date.
+            //var emp = Employees.Max(e => e.HireDate);
+            //Console.WriteLine(emp);
+            #endregion
+            #region 16-Get all orders that were shipped on the same date they were ordered.
+            //var result = Orders.Where(o=>o.ShippedDate.HasValue && o.OrderDate.Date == o.ShippedDate.Value.Date).Select(o=>new { o.OrderID , o.OrderDate, o.ShippedDate });
+            //foreach (var o in result)
+            //{
+            //    Console.WriteLine(o);
+            //}
+            #endregion
+            #region 17-List all products with a unit price that is greater than the median unit price.
 
-            // List all products with a unit price that is greater than the median unit price.
+           //not solved
 
-            // Retrieve the average freight cost for each shipper.
+            #endregion
+            #region 18-Retrieve the average freight cost for each shipper.
+            //var res = Orders.GroupBy(o=>o.ShipperID).Select(g=> new { ID = g.Key,avg = g.Select(x => x.Freight).Average() });
+            //foreach (var item in res)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
-            // Find suppliers that have their contact title starting with "Sales".
+            #region 19-Find suppliers that have their contact title starting with "Sales".
+            //var res = Suppliers.Where(s=>s.ContactTitle.StartsWith("Sales"));
+            #endregion
 
-            // Get the names of all customers who have ordered products with a unit price greater than $100.
+            #region 20-Get the names of all customers who have ordered products with a unit price greater than $100.
+            //var res = Products.Where(p=>p.UnitPrice >100)
+            //                  .Join(OrderDetails, p => p.ProductID , od=>od.ProductID , (p, od) => new
+            //                  {
+            //                      product = p,
+            //                      orderDetail = od
 
+            //                   });
+            #endregion
             // List products that have a reorder level higher than the average reorder level of all products.
 
             // Retrieve the top 3 cities with the most customers.
