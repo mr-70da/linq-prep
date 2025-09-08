@@ -678,13 +678,13 @@ namespace Northwind
             #endregion
 
             #region 30 ans
-            var customers = Orders.GroupBy(x => x.CustomerID)
-                                   .Where(group => group.Count() > 5)
-                                   .Select(x => x.Key)
-                                   .Join(Customers,
-                                         customerId => customerId,
-                                         customer => customer.CustomerID,
-                                         (customerId, customer) => customer.CompanyName);
+            //var customers = Orders.GroupBy(x => x.CustomerID)
+            //                       .Where(group => group.Count() > 5)
+            //                       .Select(x => x.Key)
+            //                       .Join(Customers,
+            //                             customerId => customerId,
+            //                             customer => customer.CustomerID,
+            //                             (customerId, customer) => customer.CompanyName);
             //foreach (var item in customers)
             //{
             //    Console.WriteLine(item);
@@ -753,12 +753,12 @@ namespace Northwind
 
             #endregion
 
-            #region 34
-            var orders = Orders.Where(x => x.ShippedDate.HasValue && x.ShippedDate.Value.Year == 1997);
-            foreach (var item in orders)
-            {
-                Console.WriteLine(item);
-            }
+            #region 33
+            //var orders = Orders.Where(x => x.ShippedDate.HasValue && x.ShippedDate.Value.Year == 1997);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
             #endregion
 
             #region 34. Retrieve employees who work in "Sales".
@@ -773,6 +773,12 @@ namespace Northwind
 
             #endregion
 
+            //var orders = Employees.Where(e=>e.Title == "Sales") ;
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
             #region 35. List all products with a reorder level less than 10.
             //var products = Products.Where(x => x.ReorderLevel < 10);
 
@@ -784,6 +790,12 @@ namespace Northwind
             //    Console.WriteLine(item);
             #endregion
 
+            //var orders = Products.Where(p=>p.ReorderLevel <10);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
             #region 36. Find orders with a ship country of "UK" and a freight cost less than $20.
             //var orders = Orders.Where(x => x.ShipCountry == "UK" && x.Freight < 20);
 
@@ -793,6 +805,13 @@ namespace Northwind
 
             //foreach (var item in orders)
             //    Console.WriteLine(item);
+            #endregion
+            #region ans 36
+            //var orders = Orders.Where(o => o.ShipCountry == "UK" && o.Freight < 20);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
             #endregion
 
             #region 37. Get the names of suppliers who have a fax number.
@@ -806,6 +825,13 @@ namespace Northwind
             //foreach (var item in suppliers)
             //    Console.WriteLine(item);
             #endregion
+            #region 37
+            //var orders = Suppliers.Where(s => s.Fax != null || s.Fax != "").Select(s=>s.ContactName);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
             #region 38. List all orders placed in the first quarter of 1998.
             //var orders = Orders.Where(x => x.OrderDate.Year == 1998 && x.OrderDate.Month <= 3);
@@ -818,6 +844,14 @@ namespace Northwind
             //    Console.WriteLine(item);
             #endregion
 
+            #region 38
+            //var orders = Orders.Where(x=>x.OrderDate.Month<=4 && x.OrderDate.Year == 1998);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
+
             #region 39. Retrieve products that have a unit price between $20 and $50.
             //var products = Products.Where(x => x.UnitPrice >= 20 && x.UnitPrice <= 50);
 
@@ -827,6 +861,13 @@ namespace Northwind
 
             //foreach (var item in products)
             //    Console.WriteLine(item);
+            #endregion
+            #region 39
+            //var orders = Products.Where(p => p.UnitPrice > 20 && p.UnitPrice < 50);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
             #endregion
 
             #region 40. Find customers who have a postal code starting with "9".
@@ -838,6 +879,13 @@ namespace Northwind
 
             //foreach (var item in customers)
             //    Console.WriteLine(item);
+            #endregion
+            #region 40
+            //var orders = Orders.Where(x => x.ShipPostalCode == "9");
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
             #endregion
 
             #region 41. List all employees with their address details.
@@ -867,6 +915,23 @@ namespace Northwind
             //foreach (var item in employees)
             //    Console.WriteLine(item);
             #endregion
+            #region 41 ans 
+            //var orders = Employees.Select(x => new
+            //{
+            //    x.FirstName,
+            //    x.LastName,
+            //    address = new
+            //    {
+            //        x.Address,
+            //        x.City,
+            //        x.Country
+            //    }
+            //});
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
             #region 42. Get all orders where the ship city is "London".
             //var orders = Orders.Where(x => x.ShipCity == "London");
@@ -878,6 +943,13 @@ namespace Northwind
             //foreach (var item in orders)
             //    Console.WriteLine(item);
             #endregion
+            #region 42
+            //var orders = Orders.Where(x => x.ShipCity == "London");
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
             #region 43. Find all categories with at least one product in stock.
             //var categories = Categories.Where(x => Products.Any(p => p.CategoryID == x.CategoryID && p.UnitsInStock > 0));
@@ -888,6 +960,13 @@ namespace Northwind
 
             //foreach (var item in categories)
             //    Console.WriteLine(item);
+            #endregion
+            #region 43
+            //var orders = Categories.Where(c => Products.Any(p=> p.CategoryID ==c.CategoryID && p.UnitsInStock>=1));
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
             #endregion
 
             #region 44. Retrieve the names and cities of customers who live in "USA".
@@ -901,6 +980,16 @@ namespace Northwind
             //foreach (var item in customers)
             //    Console.WriteLine(item);
             #endregion
+            #region 44
+            //var orders =Customers.Where(c=>c.Country == "USA").Select(c => new {
+            //                                                                    c.ContactName,
+            //                                                                    c.City
+            //                                                                    }) ;
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
             #region 45. List products supplied by supplier with ID 10.
             //var products = Products.Where(x => x.SupplierID == 10);
@@ -911,6 +1000,13 @@ namespace Northwind
 
             //foreach (var item in products)
             //    Console.WriteLine(item);
+            #endregion
+            #region 45
+            // var orders = Products.Where(p=>p.SupplierID == 10);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
             #endregion
 
             #region 46. Find all orders where the ship name contains "snabbköp".
@@ -923,6 +1019,13 @@ namespace Northwind
             //foreach (var item in orders)
             //    Console.WriteLine(item);
             #endregion
+            #region 46
+            // var orders = Orders.Where(x => x.ShipName.Contains("snabbköp"));
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
             #region 47. Get the details of products with more than 20 units in stock.
             //var products = Products.Where(x => x.UnitsInStock > 20);
@@ -934,6 +1037,13 @@ namespace Northwind
             //foreach (var item in products)
             //    Console.WriteLine(item);
             #endregion
+            #region 47
+            // var orders = Products.Where(p=>p.UnitsInStock > 20);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
             #region 48. Retrieve all orders where the order date is in 1998.
             //var orders = Orders.Where(x => x.OrderDate.Year == 1998);
@@ -942,6 +1052,13 @@ namespace Northwind
             //         where order.OrderDate.Year == 1998
             //         select order;
 
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
+            #region 48
+            // var orders = Orders.Where(x=>x.OrderDate.Year == 1998);
             //foreach (var item in orders)
             //{
             //    Console.WriteLine(item);
@@ -959,6 +1076,13 @@ namespace Northwind
             //    Console.WriteLine(item);
 
             #endregion
+            #region 49
+            //var orders = Suppliers.Where(s=>s.Country == "Canada" && s.Phone.StartsWith("416"));
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
 
             #region 50. Find products that have been ordered more than 50 times.
             //var products = Products.Where(x => OrderDetails.Where(od => od.ProductID == x.ProductID).Sum(x => x.Quantity) > 50);
@@ -971,6 +1095,14 @@ namespace Northwind
 
             //foreach (var item in products)
             //    Console.WriteLine(item);
+            #endregion
+            #region 50
+            //var orders = Products.Where(p => OrderDetails.
+            //Where(od => od.ProductID == p.ProductID).Sum(x=>x.Quantity) > 50);
+            //foreach (var item in orders)
+            //{
+            //    Console.WriteLine(item);
+            //}
             #endregion
 
             #region 51. Get the names of all employees who are not managers
@@ -1344,7 +1476,7 @@ namespace Northwind
 
             #region Medium
 
-            #region List all products whose unit price is higher than the average unit price of all products.
+            #region 1-List all products whose unit price is higher than the average unit price of all products.
             //var averageUnitPrice = Products.Average(x => x.UnitPrice);
 
             //var products = Products.Where(x => x.UnitPrice > averageUnitPrice).ToList();
@@ -1352,9 +1484,9 @@ namespace Northwind
             //foreach (var product in products)
             //    Console.WriteLine(product); 
             #endregion
-
-            #region Retrieve the top 5 customers who have placed the highest number of orders.
-            //var customers = (from customer in Customers
+            //var orders = Products.Where(p => p.UnitPrice > Products.Average(x => x.UnitPrice));
+            #region 2-Retrieve the top 5 customers who have placed the highest number of orders.
+            //var customers2 = (from customer in Customers
             //                 join order in Orders
             //                 on customer.CustomerID equals order.CustomerID
             //                 group order by customer.CustomerID
@@ -1371,32 +1503,123 @@ namespace Northwind
             //                     NumberOfOrders = CustomerGroup.Count()
             //                 }).Take(5);
 
-            //foreach (var customer in customers)
-            //    Console.WriteLine(customer); 
+            //foreach (var customer in customers2)
+            //    Console.WriteLine(customer);
             #endregion
-
-            #region Find all employees who have processed orders in more than 3 different countries.
-            //var employees = Orders.GroupBy(x => new { x.EmployeeID, x.ShipCountry }).Select(x => new { x.Key.EmployeeID, x.Key.ShipCountry }).ToList();
+            //var x = Orders.GroupBy(x => x.CustomerID).OrderByDescending(x=>x.Count()).Take(5);
+            //foreach (var i in x)
+            //    Console.WriteLine(i.Key + " " + i.Count());
+            #region 3-Find all employees who have processed orders in more than 3 different countries.
+            //var employees = Orders.GroupBy(x => x.EmployeeID).Where(g=>g.Select(x=>x.ShipCountry).Distinct().Count()>3).Select
+            //    (g=>g.Key);
 
             //foreach (var employee in employees)
             //    Console.WriteLine(employee);
             #endregion
+            #region 4-Get the total number of orders shipped by each shipper.
 
-            // Get the total number of orders shipped by each shipper.
+            //    var shippers = Orders.GroupBy(o=>o.ShipperID).Select(s=> new { shipperId= s.Key,orderCount = s.Count() });
+            //foreach(var shipper in shippers)
+            //{
+            //    Console.WriteLine(shipper);
+            //}
+            #endregion
+            #region 5-List all products that have been ordered more than the average quantity ordered per product.
 
-            // List all products that have been ordered more than the average quantity ordered per product.
+            //var avg = OrderDetails.GroupBy(o => o.ProductID).Average(g=>g.Count());
+            //var p = OrderDetails.GroupBy(o => o.ProductID).Where(g=>g.Count()>avg).Select(g=>g.Key);
+            //foreach(var x  in p)
+            //{
+            //    Console.WriteLine(x);
+            //}
+            #endregion
+            #region 6-Retrieve the names of all customers who have ordered products from more than 5 different categories.
+            //var products = Products.Select(p => new
+            //{
+            //    p.ProductID,
+            //    p.CategoryID
+            //});
 
-            // Retrieve the names of all customers who have ordered products from more than 5 different categories.
+            //var orderDetails = OrderDetails.Select(o => new { o.OrderID ,o.ProductID});
 
-            // Find suppliers that have provided products in more than 3 different categories.
+            //var orders = Orders.Select(o => new { o.OrderID, o.CustomerID });
 
-            // Get the details of the order with the maximum freight cost.
+            // var customers = Customers.Select(o => new { o.CustomerID, o.ContactName });
 
-            // List all employees who have shipped orders to more than 10 different cities.
+            //var result = Orders.Join(OrderDetails, o => o.OrderID, od => od.OrderID, (o, od) => new
+            //                    {
+            //                        o.CustomerID,
+            //                        od.ProductID
+            //                    }).Join(Products, ood=>ood.ProductID , p => p.ProductID, (ood, p) => new
+            //                    {
+            //                        ood.CustomerID,
+            //                        p.CategoryID
+            //                    }).GroupBy(c=>c.CustomerID)
+            //                    .Where(g=>g.Select(c=>c.CategoryID).Distinct().Count()>5)
+            //                    .Join(Customers,g=>g.Key, c => c.CustomerID, (g, c) => new
+            //                    {
+            //                        c.ContactName,
 
-            // Retrieve all orders that were placed by customers from the same country as the employee who processed them.
+            //                    });
+            //foreach (var x in result)
+            //{
+            //    Console.WriteLine(x);
+            //}
+            #endregion
+            #region 7-Find suppliers that have provided products in more than 3 different categories.
+            //var result = Products.GroupBy(p => p.SupplierID)
+            //                     .Where(g => g.Select(p => p.CategoryID).Distinct().Count() > 0)
+            //                     .Select(g=> new { g.Key,count = g.Select(p => p.CategoryID).Distinct().Count() });
+            //foreach(var product in result)
+            //{
+            //    Console.WriteLine(product);
+            //}
+            #endregion
+            #region 8-Get the details of the order with the maximum freight cost.
+            //var result = Orders.OrderByDescending(o=>o.Freight).Take(1)
+            //                   .Join(OrderDetails , od =>od.OrderID, o=>o.OrderID , (od, o)=>od);
+            //foreach (var od in result)
+            //{
+            //    Console.WriteLine(od);
+            //}
+            #endregion
+            #region 9-List all employees who have shipped orders to more than 10 different cities.
+            //var result = Orders.GroupBy(o => o.EmployeeID)
+            //                .Where(g => g.Select(o => o.ShipCity).Distinct().Count()>10)
+            //                .Select(g=>g.Key);
+            //foreach (var item in result) { 
+            //    Console.WriteLine(item);
+            //}
+            #endregion
+            #region 10-Retrieve all orders that were placed by customers from the same country as the employee who processed them.
+            //var result = Orders.Join(Customers , o=>o.CustomerID , c=>c.CustomerID , (o, c) => new
+            //{
+            //    c.Country,
+            //    o.EmployeeID
+              
+            //})
+            //.Join(Employees, e=>e.EmployeeID , o=>o.EmployeeID , (o, e) => new {employeeCountry = e.Country,orderCountry = o.Country})
+            //.Where(g=>g.employeeCountry == g.orderCountry);
+            //foreach (var e in result) 
+            //{ 
+            //    Console.WriteLine(e);
+            
+            //}
+            #endregion
+            #region 11-Find the products that have the highest average discount applied.
+            //var avg = OrderDetails.GroupBy(od => od.ProductID).Select(g => new
+            //{
+            //    g.Key,
+            //   Discount =  g.Average(od=>od.Discount)
+            //});
+            //var max = avg.Max(od => od.Discount);
+            //var products = avg.Where(a => a.Discount == max).Select(p=>new { p.Key , p.Discount });
+            //foreach (var product in products)
+            //{
+            //    Console.WriteLine(product);
+            //}
 
-            // Find the products that have the highest average discount applied.
+            #endregion
 
             // Get the total number of products supplied by each supplier.
 
