@@ -1,5 +1,7 @@
 ﻿using Northwind.Entities;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks.Dataflow;
 using static Northwind.DataLists;
 namespace Northwind
 {
@@ -42,7 +44,7 @@ namespace Northwind
             #endregion
 
             #region ans2
-            //var result = Customers.Where(c=>c.City == "London").Select(c=>c.ContactName);
+            //var result = Customers.Where(c=>c.City.ToLower().Trim().Contains("London".ToLower().Trim())).Select(c=>c.ContactName);
             //foreach (var item in result)
             //{
             //    Console.WriteLine(item);
@@ -137,7 +139,7 @@ namespace Northwind
             //}
             #endregion
             #region ans6
-            //var result = Products.Where(p=>p.Discontinued==true);
+            //var result = Products.Where(p=>p.Discontinued);
             //foreach (var item in result)
             //{
             //    Console.WriteLine(item);
@@ -1473,7 +1475,6 @@ namespace Northwind
 
 
             #endregion Easy
-
             #region Medium
 
             #region 1-List all products whose unit price is higher than the average unit price of all products.
@@ -1926,28 +1927,188 @@ namespace Northwind
             // Get the total number of orders placed by customers from each city and list them in descending order.
 
             #endregion Medium
-
             #region Hard
-            // Retrieve the top 5 customers who have the highest total order amount and list their order count.
+            #region 1-Retrieve the top 5 customers who have the highest total order amount and list their order count.
 
-            // Find the average discount applied to orders for each product category.
+            var totalOrderAmount  = OrderDetails.Join(Orders, od=>od.OrderID , o=>o.OrderID , (od, o) => new
+            {
+                od.OrderID,
+                Amount = od.UnitPrice * od.Quantity * (1 - (decimal)od.Discount),
+                o.CustomerID
+            }).GroupBy(g=>g.CustomerID)
+            .Select(g=>new
+            {
+                CustomerId = g.Key,
+                totalAmount = g.Select(o=>o.Amount).Sum()
+            }).OrderByDescending(o=>o.totalAmount).
+            Take(5);
+            #endregion
+            #region 2-Find the average discount applied to orders for each product category.
+            //var res = OrderDetails
+            //    .Join(Products, od => od.ProductID, p => p.ProductID, (od, p) => new
+            //    {
+            //        od.Discount,
+            //        p.CategoryID
+            //    }).Join(Categories , opd=>opd.CategoryID , c=>c.CategoryID , (opd, c) => new{
+            //        opd .Discount,
+            //        c.CategoryName
 
-            // Get the names of employees who have shipped orders with a freight cost above the median freight cost of all orders.
+            //    }).GroupBy(opd=>opd.CategoryName)
+            //    .Select(g => new {
+            //        Category = g.Key,
+            //        AvgDiscount = g.Average(x => x.Discount)
+            //    });
+            //foreach (var item in res)
+            //{
+            //    Console.WriteLine($"{item.Category} - Avg Discount: {item.AvgDiscount:P2}");
+            //}
 
-            // List all products that are supplied by the supplier with the most products and have been ordered more than the average quantity.
+            #endregion
+            #region 3-Get the names of employees who have shipped orders with a freight cost above the median freight cost of all orders.
+            //var orderedFreights = Orders
+            //                        .Select(o => o.Freight)
+            //                        .OrderBy(f => f)
+            //                        .ToList();
 
-            // Retrieve the top 3 categories with the highest average product unit price.
+            //decimal median;
+            //int count = orderedFreights.Count;
+            //if (count % 2 == 0)
+            //    median = (orderedFreights[count / 2 - 1] + orderedFreights[count / 2]) / 2;
+            //else
+            //    median = orderedFreights[count / 2];
+            //var res = Orders
+            //            .Where(o => o.Freight > median)
+            //            .Join(Employees,
+            //                o => o.EmployeeID,
+            //                e => e.EmployeeID,
+            //                (o, e) => new { e.FirstName, e.LastName })
+            //            .Distinct();
 
-            // Find the customers who have ordered products from every category at least once.
+            //foreach (var emp in res)
+            //{
+            //    Console.WriteLine($"{emp.FirstName} {emp.LastName}");
+            //}
 
-            // Get the details of the order with the longest time between order date and required date.
 
-            // List all suppliers who have not supplied products to any orders in the year 1996.
+            #endregion
+            #region 4-List all products that are supplied by the supplier with the most products and have been ordered more than the average quantity.
+            //var topSupplier = Products
+            //                        .GroupBy(p => p.SupplierID)
+            //                        .OrderByDescending(g=>g.Count())
+            //                        .Select(g=>g.Key)
+            //                        .FirstOrDefault();
+            //var avg = OrderDetails.Average(od => od.Quantity);
 
-            // Retrieve the total number of products ordered for each product and compare it to the total stock quantity.
+            //var res = Products
+            //            .Where(p => p.SupplierID == topSupplier)
+            //            .Join(OrderDetails,
+            //                p => p.ProductID,
+            //                od => od.ProductID,
+            //                (p, od) => new { p.ProductName, p.ProductID, od.Quantity })
+            //            .GroupBy(x => new { x.ProductID, x.ProductName })
+            //            .Select(g => new {
+            //                g.Key.ProductName,
+            //                AvgOrderedQty = g.Average(x => x.Quantity)
+            //            })
+            //            .Where(x => x.AvgOrderedQty > avg);
+            #endregion
+            #region 5-Retrieve the top 3 categories with the highest average product unit price.
+            ////by id
+            //var res = Products.GroupBy(p => p.CategoryID).Select(g => new
+            //{
+            //    categoryId = g.Key,
+            //    avg = g.Average(x=>x.UnitPrice)
+            //}).OrderByDescending(x=>x.avg).Take(3);
+            //foreach (var item in res)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            ////by name
+            //var res2 = Products.GroupBy(p => p.CategoryID).Select(g => new
+            //{
+            //    categoryId = g.Key,
+            //    avg = g.Average(x => x.UnitPrice)
+            //}).OrderByDescending(x => x.avg).Join(Categories , g=>g.categoryId , c=>c.CategoryID , (g, c) => new
+            //{
+            //    c.CategoryName,
+            //    g.avg
+            //}).Take(3);
+            //foreach (var item in res2)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
+            #region 6-Find the customers who have ordered products from every category at least once.
+            //var CateCount = Categories.Select(c => c.CategoryID).Count();
+            //var res = OrderDetails
+            //                        .Join(Orders, od => od.OrderID, o => o.OrderID, (od, o) => new
+            //                        {
+            //                            od.ProductID,
+            //                            o.OrderID,
+            //                            o.CustomerID
+            //                        })
+            //                        .Join(Products , od=> od.ProductID , p=>p.ProductID, (od,p)=> new
+            //                        {
+            //                            od.CustomerID,
+            //                            od.ProductID,
+            //                            p.CategoryID
+            //                        })
+            //                        .GroupBy(x=>x.CustomerID)
+            //                        .Where(g=>g.Select(x=>x.CategoryID).Distinct().Count() == CateCount)
+            //                        .Select(c=>c.Key);
+            #endregion
+            #region 7-Get the details of the order with the longest time between order date and required date.
+            //var res = Orders.Select(o => new
+            //{
+            //    Order = o,
+            //    TimeDiff = (o.RequiredDate.Day - o.OrderDate.Day)
+            //}).OrderByDescending(x=>x.TimeDiff).FirstOrDefault();
+            //Console.WriteLine(res);
+            #endregion
+            #region 8-List all suppliers who have not supplied products to any orders in the year 1996.
+            //var suppliers1996 = Orders.Where(o => o.OrderDate.Year == 1996)
+            //                        .Join(OrderDetails, o => o.OrderID, od => od.OrderID, (o, od) => od.ProductID)
+            //                        .Join(Products, pid => pid, p => p.ProductID, (pid, p) => p.SupplierID)
+            //                        .Distinct()
+            //                        .ToList();
+            //var res = Suppliers
+            //                .Where(s => !suppliers1996.Contains( s.SupplierID))
+            //                .Select(s => new { s.SupplierID, s.CompanyName });
 
-            // Find all products that have a reorder level equal to the maximum reorder level for their category.
 
+            #endregion
+            #region 9-Retrieve the total number of products ordered for each product and compare it to the total stock quantity.
+            var res = Products
+                            .GroupJoin(OrderDetails,
+                                p => p.ProductID,
+                                od => od.ProductID,
+                                (p, ods) => new
+                                {
+                                    p.ProductID,
+                                    p.ProductName,
+                                    TotalOrdered = ods.Sum(x => (int?)x.Quantity) ?? 0,
+                                    p.UnitsInStock
+                                })
+                            .Select(x => new
+                            {
+                                x.ProductName,
+                                Difference = x.UnitsInStock - x.TotalOrdered
+                            });
+            #endregion
+            #region 10-Find all products that have a reorder level equal to the maximum reorder level for their category.
+            //var maxReorderPerCate = Products.GroupBy(p => p.CategoryID)
+            //                                .Select(g => new { CategoryID = g.Key , MaxReorder = g.Max(x=>x.ReorderLevel) });
+
+            //var res = Products.Join(maxReorderPerCate,
+            //                          p => p.CategoryID,
+            //                          m => m.CategoryID,
+            //                          (p, m) => new {p.ProductName, p.CategoryID, p.ReorderLevel, m.MaxReorder })
+            //                  .Where(x => x.ReorderLevel == x.MaxReorder); 
+            //foreach ( var g in res)
+            //{
+            //    Console.WriteLine(g);
+            //}
+            #endregion
             // Get the names of all customers who have ordered products from suppliers with more than 5 products.
 
             // List the employees who have processed orders for customers in more than 4 different countries.
@@ -2130,8 +2291,6 @@ namespace Northwind
 
 
             #endregion Hard
-
-
         }
     }
 }
