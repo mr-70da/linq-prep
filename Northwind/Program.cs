@@ -2078,22 +2078,22 @@ namespace Northwind
 
             #endregion
             #region 9-Retrieve the total number of products ordered for each product and compare it to the total stock quantity.
-            var res = Products
-                            .GroupJoin(OrderDetails,
-                                p => p.ProductID,
-                                od => od.ProductID,
-                                (p, ods) => new
-                                {
-                                    p.ProductID,
-                                    p.ProductName,
-                                    TotalOrdered = ods.Sum(x => (int?)x.Quantity) ?? 0,
-                                    p.UnitsInStock
-                                })
-                            .Select(x => new
-                            {
-                                x.ProductName,
-                                Difference = x.UnitsInStock - x.TotalOrdered
-                            });
+            //var res = Products
+            //                .GroupJoin(OrderDetails,
+            //                    p => p.ProductID,
+            //                    od => od.ProductID,
+            //                    (p, ods) => new
+            //                    {
+            //                        p.ProductID,
+            //                        p.ProductName,
+            //                        TotalOrdered = ods.Sum(x => (int?)x.Quantity) ?? 0,
+            //                        p.UnitsInStock
+            //                    })
+            //                .Select(x => new
+            //                {
+            //                    x.ProductName,
+            //                    Difference = x.UnitsInStock - x.TotalOrdered
+            //                });
             #endregion
             #region 10-Find all products that have a reorder level equal to the maximum reorder level for their category.
             //var maxReorderPerCate = Products.GroupBy(p => p.CategoryID)
@@ -2109,10 +2109,56 @@ namespace Northwind
             //    Console.WriteLine(g);
             //}
             #endregion
-            // Get the names of all customers who have ordered products from suppliers with more than 5 products.
+            #region 11-Get the names of all customers who have ordered products from suppliers with more than 5 products.
+            //var suppliers = Products.GroupBy(p => p.SupplierID).Where(g => g.Count() > 5).Select(g=> g.Key);
+            //var res = Customers.Join(Orders, c => c.CustomerID, o => o.CustomerID, (c, o) => new
+            //                    {
+            //                        c.ContactName,
+            //                        o.OrderID
+            //                    })
+            //                    .Join(OrderDetails , o=>o.OrderID , od=>od.OrderID , (o,od)=> new
+            //                    {
+            //                        o.ContactName,
+            //                        od.ProductID
+            //                    })
+            //                    .Join(Products, o => o.ProductID , p=>p.ProductID , (o, p) => new
+            //                    {
+            //                        o.ContactName,
+            //                        p.SupplierID
+            //                    })
+            //                    .Where(x => suppliers.Contains(x.SupplierID))
+            //                    .Select(x => x.ContactName)
+            //                    .Distinct();
+            //foreach(var e  in res)
+            //{
+            //    Console.WriteLine(e);
+            //}
+            #endregion
+            #region 12-List the employees who have processed orders for customers in more than 4 different countries.
 
-            // List the employees who have processed orders for customers in more than 4 different countries.
 
+            //var res = Employees.Join(Orders, e => e.EmployeeID, o => o.EmployeeID, (e, o) => new
+            //{
+            //    e.EmployeeID,
+            //    o.CustomerID,
+            //}).Join(Customers, e => e.CustomerID, c => c.CustomerID, (e, c) => new
+            //{
+            //    e.CustomerID,
+            //    e.EmployeeID,
+            //    c.Country
+            //}).GroupBy(x => x.EmployeeID)
+            //.Where(g => g.Select(x => x.Country).Distinct().Count() > 4)
+            //.Select(g => new
+            //{
+            //    EmployeeId = g.Key,
+            //    CountryCount = g.Select(x => x.Country).Distinct().Count()
+            //});
+
+            //foreach (var e in res)
+            //{
+            //    Console.WriteLine(e);
+            //}
+            #endregion
             // Retrieve the names of categories where the average unit price of products is greater than the overall average unit price.
 
             // Find the suppliers who have provided products with a quantity per unit description that includes both "Box" and "Pack".
